@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim AS build
+FROM debian:8 AS build
 RUN apt-get -y update
 RUN apt-get install -y curl supervisor git openssl  build-essential libssl-dev wget vim curl
 RUN mkdir -p /var/log/supervisor
