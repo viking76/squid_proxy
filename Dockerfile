@@ -1,17 +1,17 @@
-FROM debian:8 AS build
+FROM debian:bullseye-slim AS build
 RUN apt-get -y update
 RUN apt-get install -y curl supervisor git openssl  build-essential libssl-dev wget vim curl
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 WORKDIR /apps/
-RUN wget -O - http://www.squid-cache.org/Versions/v3/3.5/squid-3.5.27.tar.gz | tar zxfv - \
+RUN wget -O - http://www.squid-cache.org/Versions/v4/squid-4.13.tar.gz | tar zxfv - \
     && CPU=$(( `nproc --all`-1 )) \
-    && cd /apps/squid-3.5.27/ \
+    && cd /apps/squid-4.13/ \
     && ./configure --prefix=/apps/squid --disable-arch-native -enable-icap-client --enable-ssl --with-openssl --enable-ssl-crtd --enable-auth --enable-basic-auth-helpers="NCSA" \
     && make -j$CPU \
     && make install \
     && cd /apps \
-    && rm -rf /apps/squid-3.5.27
+    && rm -rf /apps/squid-4.13
 ADD . /apps/
 
 RUN chown -R nobody:nogroup /apps/
