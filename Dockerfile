@@ -2,6 +2,11 @@ FROM debian:8 AS build
 RUN apt-get -y update
 RUN apt-get install -y curl supervisor git openssl  build-essential libssl-dev wget vim curl
 RUN mkdir -p /var/log/supervisor
+# ** Clean
+RUN apt-get clean && \
+    apt-get autoclean
+RUN rm -rf /var/lib/apt/lists/*
+
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 WORKDIR /apps/
 RUN wget -O - http://www.squid-cache.org/Versions/v4/squid-4.13.tar.gz | tar zxfv - \
