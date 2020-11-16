@@ -44,7 +44,7 @@ RUN rm -rf /var/lib/apt/lists/*
 
 # ** gencert
 RUN /apps/squid/libexec/security_file_certgen -c -s /apps/squid/var/lib/ssl_db -M 4MB
-RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.cache -z
+RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.intercept -z
 
 WORKDIR ../
 
