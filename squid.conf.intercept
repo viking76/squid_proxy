@@ -56,6 +56,6 @@ refresh_pattern (cgi-bin|\?)	0	0%	0
 refresh_pattern .		0	20%	4320
 
 icp_port 3130
-
+error_directory /usr/share/squid-langpack/en
 
 coredump_dir /apps/squid/var/cache
