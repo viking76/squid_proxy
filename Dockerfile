@@ -50,7 +50,7 @@ WORKDIR /usr/share/squid-langpack/
 WORKDIR /apps/
 # ** gencert test
 RUN /apps/squid/libexec/security_file_certgen -c -s /apps/squid/var/lib/ssl_db -M 4MB
-RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.intercept -z
+#RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.intercept -z
 #RUN killall security_file_certgen
 #RUN killall squid
 
