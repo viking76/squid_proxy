@@ -2,7 +2,7 @@ FROM debian:buster-slim AS build
 #add package
 
 RUN apt-get -y update
-RUN apt-get install -y supervisor openssl build-essential libssl-dev wget
+RUN apt-get install -y supervisor openssl build-essential libssl-dev wget nano
 RUN mkdir -p /var/log/supervisor
 
 
@@ -42,9 +42,11 @@ RUN apt-get clean && \
     apt-get autoclean
 RUN rm -rf /var/lib/apt/lists/*
 
-# ** gencert
+# ** gencert test
 RUN /apps/squid/libexec/security_file_certgen -c -s /apps/squid/var/lib/ssl_db -M 4MB
 RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.intercept -z
+#RUN killall security_file_certgen
+#RUN killall squid
 
 WORKDIR ../
 
@@ -58,4 +60,3 @@ WORKDIR /apps/
 
 EXPOSE 3128
 #CMD ["/usr/bin/supervisord"]
-
