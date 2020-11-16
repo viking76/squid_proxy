@@ -1,0 +1,14 @@
+version: '3'
+services:
+  squid:
+    build: ./
+    volumes:
+      - CONFIG
+    links:
+#      - redis
+#      - postgresql
+    environment:
+     - PORT
+     - LANG
+    ports: # you can comment this out when using the nginx frontend
+      - "${PORT}:${PORT}"
