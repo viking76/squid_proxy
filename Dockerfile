@@ -56,5 +56,5 @@ RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.intercept -z
 
 EXPOSE 3128
 #CMD ["/usr/bin/supervisord"]
-RUN chmod +x /usr/src/app/docker-entrypoint.sh
-ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
+RUN chmod +x /app/docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
