@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed -i 's/EN/'${LANG}'/g' /apps/squid.conf.intercept
+sed -i 's/"squid-langpack/en"/'"squid-langpack/"${LANG}'/g' /apps/squid.conf.intercept
 sed -i 's/3128/'${PORT}'/g' /apps/squid.conf.intercept
 
 #if [[ "${USE_SSL:-0}" == "1" ]] ; then
