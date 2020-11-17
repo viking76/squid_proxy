@@ -1,8 +1,9 @@
-FROM debian:buster-slim AS build
+FROM debian:latest AS build
+LABEL maintainer "Gael Liaudet <liaudetgael@gmail.com>"
 #add package
 
 RUN apt-get -y update
-RUN apt-get install -y supervisor openssl build-essential libssl-dev wget nano iputils-ping
+RUN apt-get install -y supervisor openssl build-essential libssl-dev wget nano iputils-ping htop
 RUN mkdir -p /var/log/supervisor
 
 RUN export PS1="squid-server $PS1"
@@ -25,6 +26,7 @@ ADD . /apps/
 
 
 # ** Add user
+#RUN mv interfaces /etc/networks
 RUN chown -R nobody:nogroup /apps/
 RUN useradd -m squid
 RUN usermod -G squid squid
@@ -46,15 +48,14 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /usr/share/squid-langpack
 WORKDIR /usr/share/squid-langpack/
 	RUN wget -O - http://www.squid-cache.org/Versions/langpack/squid-langpack-20201029.tar.gz | tar zxfv -
+#	RUN sed -i 's/squid-langpack\/en/squid-langpack\/fr/g' /apps/squid.conf.cache
 
 WORKDIR /apps/
 # ** gencert test
 RUN /apps/squid/libexec/security_file_certgen -c -s /apps/squid/var/lib/ssl_db -M 4MB
-#RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.intercept -z
-#RUN killall security_file_certgen
-#RUN killall squid
+RUN /apps/squid/sbin/squid -N -f /apps/squid.conf.cache -z
 
 EXPOSE 3128
-#CMD ["/usr/bin/supervisord"]
-RUN chmod +x /apps/docker-entrypoint.sh
-ENTRYPOINT ["/apps/docker-entrypoint.sh"]
+#RUN chmod +x /apps/docker-entrypoint.sh
+#CMD ["/apps/docker-entrypoint.sh"]
+#CMD /apps/squid/sbin/squid -N -f /apps/squid.conf.intercept -z
